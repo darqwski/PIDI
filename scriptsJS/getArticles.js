@@ -13,17 +13,7 @@ function getFiftyArticles(starter,thisFiltr){
     }
     setTimeout(function () {articlesdownloadpossinility=true;},optimumTimeDownload)
 }
-$(document).on("scroll",function(e){
 
-
-if(Math.abs(document.body.scrollHeight -window.innerHeight-$(document).scrollTop())<200){
-    if(articlesdownloadpossinility){
-        getFiftyArticles(counterOfArticles)
-        counterOfArticles+=50;
-    }
-
-}
-})
 function getCommand() {
     var command="filtr="
 var containers=document.getElementsByName("filtres");
@@ -36,24 +26,25 @@ return command
 function getArticles(filtrLine,counter) {
     var received=[];
     var articles=[]
-    var link="http://darqwski.cba.pl/PIDI/antek.php?"+filtrLine+"&count="+(counter);
+    var link="/pidi/articlegetter.php?"+filtrLine+"&count="+(counter);
     $.get(link,function(data) {
+            console.log(link)
             try{received=JSON.parse(data)}
             catch (error){
                 console.log(link)
                 console.log(data);
             }
-            for(var i=counter;i<counter+10;i++)
+            for(var i=0;i<10;i++)
             {
-                if(!received["title"+i])break
+                if(!received[i]["title"])break
                 articles[articles.length]=(new article(
-                    received["title"+i].replace("&qout;","\""),
-                    received["link"+i],
-                    received["img"+i],
-                    received["date"+i],
-                    received["site"+i],
-                    received["category"+i],
-                    received["sitefoto"+i]
+                    received[i]["title"].replace("&qout;","\""),
+                    received[i]["link"],
+                    received[i]["img"],
+                    received[i]["date"],
+                    received[i]["site"],
+                    received[i]["category"],
+                    received[i]["sitefoto"]
                 ) )
             }
 

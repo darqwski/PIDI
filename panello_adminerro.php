@@ -1,87 +1,125 @@
 <!DOCTYPE>
-<?php
-include ("PDO.php");
-session_start();
-if($_SESSION['user_id']!=0)header('Location:index.php');
-?>
 <html>
 <head>
 <meta charset="UTF8"/>
-<style>
-body{
-    background-color: black;
-}
-#console_out {
-	display:block;
-	width:99%;
-	height:85%;
-	background-color:#000;
-	color:#0F0;
-    border:3px solid #0A0;
-	overflow:auto;
-    font-size:300%;
-}
-#console_in {
-	width:99%;
-	height:10%;
-    font-size:300%;
-	background-color:#000;
-	color:#0F0;
-    border:3px solid #0A0;
-}
-</style>
+    <style>
+        body{
+            background-color: black;
+        }
+        #consoleScreen {
+            display:block;
+            width:99%;
+            height:85%;
+            background-color:#000;
+            color:#0F0;
+            border:3px solid #0A0;
+            overflow:auto;
+            font-size:300%;
+        }
+        #consolePrompt {
+            width:99%;
+            height:10%;
+            font-size:300%;
+            background-color:#000;
+            color:#0F0;
+            border:3px solid #0A0;
+        }
+    </style>
 <title>Panello Adminerro</title>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 </head>
 <body>
-<div id="console_out"></div>
+<div id="consoleScreen"></div>
 
-<input id="console_in" >
+<input id="consolePrompt" >
 
 
 <script>
-document.getElementById("console_in").onkeydown=function(e)
+    var allCommands=[];
+    var commandPointer=0;
+    var isLogged=false;
+document.getElementById("consolePrompt").onkeydown=function(e)
 {
+    if(e.keyCode==38){
+        document.getElementById("consolePrompt").value=allCommands[commandPointer%allCommands.length]
+        commandPointer--;
+    }
+    if(e.keyCode==40){
+        document.getElementById("consolePrompt").value=allCommands[commandPointer%allCommands.length]
+        commandPointer++;
+    }
+    if (e.keyCode != 13) return 0;
 
-	if (e.keyCode == 13) {
+    document.getElementById("consoleScreen").innerHTML+=">"+document.getElementById("consolePrompt").value+"<br/>"
+    let element = document.getElementById('consoleScreen');
+    element.scrollTop = element.scrollHeight - element.clientHeight;
+    let command=document.getElementById("consolePrompt").value.toLowerCase();
+   if(allCommands.top!="root"){
+       allCommands.push(command)
+       commandPointer++;
+   }
+    command=command.split(" ");
 
-			document.getElementById("console_out").innerHTML+=">"+document.getElementById("console_in").value+"<br/>"
-		
-		 var element = document.getElementById('console_out');
-				element.scrollTop = element.scrollHeight - element.clientHeight;
-       if(document.getElementById("console_in").value!="rdb") $.post('console.php',{command:document.getElementById("console_in").value},function(data){
-			
-			
-			 var element = document.getElementById('console_out');
-			 element.innerHTML+=">"+data+"<br>"
-				element.scrollTop = element.scrollHeight - element.clientHeight;
-		});
-		else if(document.getElementById("console_in").value=="rdb"){
-			
-			for(var i=0;i<100;i++) {
+    document.getElementById("consolePrompt").value="";
+    document.getElementById("consolePrompt").setAttribute("type","text");
 
-			$.get('odswiez.php?a='+i,{},function(data) {
-                var element = document.getElementById('console_out');
+    if(command[0]=="root"){isLogged=true;
+        element.innerHTML += ">Zalogowano pomyślnie<br>"
+    }
+   if((command[0]!="login")&&isLogged==false){
+       element.innerHTML+=">Jesteś niezalogowany <br>"
+       return 0;
+   }
+    switch(command[0]){
+        case "rdb":
+            //Refreshing links one by one
+            $.get('pidi/refresh.php?',{special:"special"},function(data) {
                 if (data != 'stop') {
                     element.innerHTML += ">" + data + "<br>"
                     element.scrollTop = element.scrollHeight - element.clientHeight;
                 }
 
+
             })
-			}
-			setTimeout($.get('odswiez.php',{b:'wio'},function(data){
-			    var element = document.getElementById('console_out');
-				if(data!='stop') {
-					element.innerHTML+=">"+data+"<br>"
-					element.scrollTop = element.scrollHeight - element.clientHeight;
-				}
-            }), 25000);
-		
-			
-		}
-		document.getElementById("console_in").value="";
+
+            for(let i=0;i<100;i++) {
+                $.get('pidi/refresh.php?link='+i,{},function(data) {
+                    if (data != 'stop') {
+                        element.innerHTML += ">" + data + "<br>"
+                        element.scrollTop = element.scrollHeight - element.clientHeight;
+                    }
+
+
+                })
+            }
+            //And move the table
+            setTimeout($.get('pidi/refresh.php?move',{move:"move"},function(data){
+                if(data!='stop') {
+                    element.innerHTML+=">"+data+"<br>"
+                    element.scrollTop = element.scrollHeight - element.clientHeight;
+                }
+            }), 45000);
+
+            break;
+        case "help":
+            element.innerHTML+=">rdb - Refreshing Database<br>"
+            element.innerHTML+=">rlink [number] - Refreshing single link<br>"
+            element.innerHTML+=">cls - Clear Screen<br>"
+            element.innerHTML+=">addrss [LINK] [CATEGORY] [SITE]- Adding new RSS to base<br>"
+            element.innerHTML+=">addimg [SITE]- Adding new site image to PIDI<br>"
+            element.innerHTML+="><br>"
+            break;
+
+        case "login":
+            element.innerHTML+="> Podaj hasło : <br>";
+            document.getElementById("consolePrompt").setAttribute("type","password");
+            break;
+
     }
-}
+
+
+    }
+
 
 </script>
 </body>

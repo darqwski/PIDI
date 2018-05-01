@@ -18,12 +18,17 @@ div{
     grid-template-columns: 2fr 5fr;
 }
 .descriptionHeader{
-    background-color: #E8EAF6;
-    color:rgba(0,0,0,.87);
+    color:rgba(255,255,255,.97);
+    display:block;
     padding: 1%;
-    font-size: 100%;
+    font-size: 50%;
+    text-align: left;
 
 }
+descriptionHeader p{
+    font-size: 200%;
+}
+
 .top-nav{
 
     margin-top: 3%;
@@ -159,6 +164,16 @@ button{
     .switcher-div {
     font-size: 300%;
     }
+    footer{
+        display: grid;
+        grid-template-columns: auto;
+        grid-row-gap: 3%;
+        grid-column-gap: 3%;
+    }
+    .titleHeader{
+        display:grid;
+        grid-template-columns: auto;
+    }
 
 }
 
@@ -191,6 +206,14 @@ button{
     .aside-content{
         display:inline-grid;
         grid-template-columns: auto auto auto;
+    }
+    footer{
+        grid-column-start: 1;
+        grid-column-end: 5;
+    }
+    .titleHeader{
+        display:grid;
+        grid-template-columns: 2fr 5fr;
     }
 
 }

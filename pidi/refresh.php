@@ -42,7 +42,7 @@ function moveRecords(){
 
     insertCommand("DELETE FROM `articles` WHERE `date`>DATE_SUB(CURDATE(), INTERVAL  -24 HOUR )");
     insertCommand("INSERT INTO `articles` 
-SELECT (`id` + ( SELECT MAX( `id` ) FROM `articles` ) ),`title`, `link`, `img`, `site`, `category`, `date`
+SELECT (`id` + ( SELECT MAX( `id` ) FROM `articles` ) ),`title`,`link`, `img`, `site`, `category`, `date`
 FROM `articlesTemp` 
 WHERE `date` >DATE_SUB(NOW(), INTERVAL 24 HOUR)");
     insertCommand("TRUNCATE `articlesTemp`");
@@ -59,7 +59,7 @@ WHERE `date` >DATE_SUB(NOW(), INTERVAL 24 HOUR)");
 if(isset($_GET['link'])){
     echo refreshLink($_GET['link']);
 }
-if(isset($_GET['special'])){
+else if(isset($_GET['special'])){
 
     createWheatherArticle();
     echo "Artykuł pogodowy";

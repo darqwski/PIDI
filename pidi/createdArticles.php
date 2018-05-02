@@ -45,12 +45,12 @@ function createWheatherArticle(){
         $article->setTitle($title);
         $article->setImg($img);
         $article->setCategory("PIDI");
-        $article->setSite("http://darqwski.cba.pl/pidi");
+        $article->setSite("darqwski.cba.pl");
         $article->setLink("http://darqwski.cba.pl/pidi");
-        $article->setDate( date("Y-m-d"));
+        $article->setDate( date("Y-m-d H:i:s"));
         $article->setSQLStatement();
        sendCommand( $article->getSQLStatement());
-       echo $article->getSQLStatement();
+       //echo $article->getSQLStatement();
 
 }
 

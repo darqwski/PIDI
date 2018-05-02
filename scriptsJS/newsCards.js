@@ -22,16 +22,15 @@ function article(title,link,img,date,site,cat,siteImg) {
 
         this.validateArticle();
         var article = $("<article>", {class: "article-container"});
-        var header = $("<div>", {class: "article-header"});
-        var headerSiteImage = $("<img>", {class: "article-site-image", src: this.siteImg});
-        var headerDesc = $("<div>", {class: "article-desc"}).html("<b>" + this.site + "</b></br>" + this.cat);
+        var footer = $("<div>", {class: "article-footer"});
+        var siteImage = $("<img>", {class: "article-site-image", src: this.siteImg});
         var headerDate = $("<div>", {class: "article-date"}).text(this.date);
         var mainImage = $("<img>", {class: "article-img", src: this.img});
-        var mainImageLink=$("<a>", {class: "article-title", href: this.link,target:"_blank"})
+        var mainImageLink=$("<a>", { href: this.link,target:"_blank"})
         var mainTitle = $("<a>", {class: "article-title", href: this.link,target:"_blank"}).text(this.title);
         mainImageLink.append(mainImage)
-        header.append(headerSiteImage).append(headerDesc);
-        article.append(header).append(mainImageLink).append(mainTitle).append(headerDate)//append(main)
+        footer.append(headerDate).append(siteImage);
+        article.append(mainImageLink).append(mainTitle).append(footer)//append(main)
         $("container").append(article)
     }
 }

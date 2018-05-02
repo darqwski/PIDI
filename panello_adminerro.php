@@ -107,7 +107,7 @@ document.getElementById("consolePrompt").onkeydown=function(e)
             element.innerHTML+=">cls - Clear Screen<br>"
             element.innerHTML+=">addrss [LINK] [CATEGORY] [SITE]- Adding new RSS to base<br>"
             element.innerHTML+=">addimg [SITE]- Adding new site image to PIDI<br>"
-            element.innerHTML+="><br>"
+            element.innerHTML+="><br/>"
             break;
 
         case "login":

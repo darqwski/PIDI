@@ -1,7 +1,6 @@
-Front-Endowa część projektu PIDI, wysyłająca określone żądania i otrzymująca konkretne artykuły
+PIDI PROJECT
 
-W planie:
->Dołożenie częśći backendowej
->Definicja własnych artykułów typu:Pogoda, Kurs Walut, Rozpiska świąt i imienin (Raczej z backendu)
->Konto użytkownika
->Możliwość zbadania historii użytkownika
+Frontend and Backend PIDI project, application works as advanced rss reader, which collect articles from many sites,
+save them into the base and allow to read few of them. Selection of articles is based on publish date, category of articleand site.
+ 
+In next commits will be added few special articles, which will be contain information such as currency, wheather, calendar and few more.
